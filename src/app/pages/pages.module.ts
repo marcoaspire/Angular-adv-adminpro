@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { PagesRoutingModule } from './pages.routing';
 import { ComponentsModule } from '../components/components.module';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ComponentsModule } from '../components/components.module';
     DashboardComponent,
     ProgressComponent,
     Graph1Component,
-    PagesComponent
+    PagesComponent,
+    AccountSettingsComponent
   ],
   imports: [
     SharedModule,
@@ -34,6 +36,8 @@ import { ComponentsModule } from '../components/components.module';
     ProgressComponent,
     Graph1Component,
     PagesComponent,
+    AccountSettingsComponent
+
   ]
 })
 export class PagesModule { }
