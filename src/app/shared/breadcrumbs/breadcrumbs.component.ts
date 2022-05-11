@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styles: [
   ]
 })
-export class BreadcrumbsComponent {
+export class BreadcrumbsComponent implements OnDestroy{
   public title:string ='';
   public titleSubs$: Subscription;
 
@@ -22,6 +22,9 @@ export class BreadcrumbsComponent {
     });
 
    }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
 
    getParams(){
