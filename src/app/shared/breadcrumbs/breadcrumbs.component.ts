@@ -23,7 +23,7 @@ export class BreadcrumbsComponent implements OnDestroy{
 
    }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.titleSubs$.unsubscribe();
   }
 
 
