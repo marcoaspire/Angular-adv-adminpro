@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 //
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit {
 
   },{ validators: this.matchPassword('password','password2') });
 
-  constructor(private fb: FormBuilder, private userService:UserService) { }
+  constructor(private fb: FormBuilder, private userService:UserService,private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -36,7 +37,10 @@ export class RegisterComponent implements OnInit {
     if (this.myForm.valid){
       this.userService.createUser(this.myForm.value)
       .subscribe({
-        next: resp =>  console.log(resp),
+        next: resp =>  {
+          Swal.fire('Saved','User created','success');
+          this.router.navigateByUrl('login');
+        },
         error: err => {
           Swal.fire('Error',err.error.msg,'error')}
         

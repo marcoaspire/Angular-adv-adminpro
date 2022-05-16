@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { map, catchError,tap } from "rxjs/operators";
 import { of,Observable } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { Register } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { Router } from '@angular/router';
+import { User } from '../models/user.model';
 
 
 const base_url= environment.base_url;
@@ -14,7 +16,54 @@ const base_url= environment.base_url;
 })
 export class UserService {
 
-  constructor(private http:HttpClient) {   }
+  public auth2:any;
+  public user!:User;
+
+  constructor(private http:HttpClient, private router:Router,
+              private ngZone:NgZone
+    
+    ) {   }
+
+  get token():string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get id():number{
+    return this.user.userID|| -1;
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    this.ngZone.run(()=>{
+      this.router.navigateByUrl('/login');
+
+    });
+  }
+
+  tokenValidation():Observable<boolean>{
+
+    return this.http.get(`${base_url}/Auth/renew`, {
+      headers:{
+        'x-token': this.token
+      }
+    }).pipe(
+      map((resp:any) => {
+        const  { email,google,img,name,role,userID}=resp.user;
+        this.user=new User(google,name,email,'',img,role,userID);
+        
+        localStorage.setItem('token', resp.token);
+        return true;
+      }),
+      catchError(err=> {
+        console.log(err);
+        
+       return of(false);
+      }
+      )
+    );
+
+  }
+
 
   createUser(formData:Register){
     return this.http.post(`${base_url}/User`, formData).pipe(
@@ -23,6 +72,22 @@ export class UserService {
       })
     )
   }
+
+  updateUser(data:{email:string, name:string, role:string}){
+    data ={
+      ...data,
+      role:this.user.role || 'USER_ROLE'
+    }
+    return this.http.put(`${base_url}/User/${this.id}`, data,{
+      headers:{
+        'x-token': this.token
+      }
+  
+    }
+    );
+  }
+
+
   
   login(formData:LoginForm){
     const url = `${base_url}/Auth`;
@@ -31,6 +96,18 @@ export class UserService {
 
     return this.http.post(url,formData).pipe(
       tap( (resp:any) => {
+        
+        localStorage.setItem('token', resp.token.token)
+      }       
+      )
+    );
+  }
+
+  loginGoogle(token:string){
+    const url = `${base_url}/Auth/google`;
+    return this.http.post(url,{token}).pipe(
+      tap( (resp:any) => {
+        console.log(resp);
         
         localStorage.setItem('token', resp.token.token)
       }       
