@@ -67,8 +67,6 @@ export class ProfileComponent implements OnInit {
       
     }
     return ;
-
-    
   }
 
   uploadPicture(){
@@ -76,16 +74,13 @@ export class ProfileComponent implements OnInit {
     .then(img => {
       this.user.img = img,
       Swal.fire('Saved', 'Image uploaded', 'success');
-
     })
     .catch(err => {
         
         console.log(err);
         
         //Swal.fire('Error',err.error.msg,'error')
-      }
-    )
-    
+    });
   }
 
 

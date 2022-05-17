@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, catchError,tap } from "rxjs/operators";
+import { map, catchError,tap,delay } from "rxjs/operators";
 import { of,Observable } from "rxjs";
 import { environment } from 'src/environments/environment';
 import { Register } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { LoadUser } from '../interfaces/load-users.interface';
 
 
 const base_url= environment.base_url;
@@ -30,6 +31,14 @@ export class UserService {
 
   get id():number{
     return this.user.userID|| -1;
+  }
+
+  get headers(){
+    return {
+      headers:{
+        'x-token': this.token
+      }
+    }
   }
 
   logout(){
@@ -78,16 +87,36 @@ export class UserService {
       ...data,
       role:this.user.role || 'USER_ROLE'
     }
-    return this.http.put(`${base_url}/User/${this.id}`, data,{
-      headers:{
-        'x-token': this.token
-      }
-  
-    }
+    return this.http.put(`${base_url}/User/${this.id}`, data,this.headers
     );
   }
 
+  loadUsers(from:number=1){
+      // http://localhost:5516/api/User?from=3
+      return this.http.get<LoadUser>(`${base_url}/User?from=${from}`,this.headers)
+      .pipe(
+        delay(500),
+        map(resp =>{
+          const users = resp.users.map(user => new User(user.google,user.name,user.email,'',user.img,user.role,user.userID) )
+          return {
+            total:resp.total,
+            users
+          };
+        })
+      )
+      ;
+  }
 
+  deleteUser(user:User){
+    http://localhost:5516/api/User/13
+    return this.http.delete(`${base_url}/User/${user.userID}`,this.headers);
+  }
+
+  saveUser(user:User){
+    
+    return this.http.put(`${base_url}/User/${user.userID}`, user,this.headers
+    );
+  }
   
   login(formData:LoginForm){
     const url = `${base_url}/Auth`;
