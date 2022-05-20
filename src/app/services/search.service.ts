@@ -42,7 +42,9 @@ export class SearchService {
           case 'users':
               return this.convertUsers(resp.users);
             break;
-        
+            case 'hospitals':
+              return resp.hospitals;
+            break;
           default:
             return [];
             break;

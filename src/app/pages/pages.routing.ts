@@ -11,6 +11,9 @@ import { AuthGuard } from '../guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 //Maintenances
 import { UsersComponent } from './maintenances/users/users.component';
+import { DoctorsComponent } from './maintenances/doctors/doctors.component';
+import { HospitalsComponent } from './maintenances/hospitals/hospitals.component';
+import { DoctorComponent } from './maintenances/doctors/doctor.component';
 
 
 
@@ -29,6 +32,9 @@ const routes: Routes = [
       { path:'rxjs', component: RxjsComponent,data:{title:'Rxjs'}},
       //Maintenances
       { path:'users', component: UsersComponent,data:{title:'Application users'}},
+      { path:'hospitals', component: HospitalsComponent,data:{title:'Application hospitals'}},
+      { path:'doctors', component: DoctorsComponent,data:{title:'Application doctors'}},
+      { path:'doctor/:id', component: DoctorComponent,data:{title:'Application doctors'}},
 
 
       { path:'**', redirectTo: 'dashboard', pathMatch:'full'},
