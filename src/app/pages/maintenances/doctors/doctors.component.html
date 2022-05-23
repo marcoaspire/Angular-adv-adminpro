@@ -3,14 +3,17 @@
         <div class="card">
             <div class="card-body">
 
-                <input type="text" name="" id="" class="form-control">
+                <input type="text" 
+                (keyup)="search(txtSearch.value)"
+                #txtSearch 
+                class="form-control">
 
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row"  *ngIf="loading">
     <div class="col-12">
         <div class="alert alert-info text-center">
             <h4 class="alert-heading">
@@ -22,12 +25,22 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row"  *ngIf="!loading">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Doctors</h4>
-                <h6 class="card-subtitle">Registered doctor in the application</h6>
+                <div class="row">
+                    <div class="col">
+                        <h4 class="card-title">Doctors</h4>
+                        <h6 class="card-subtitle">Registered doctor in the application</h6>
+                    </div>
+                    <div class="col">
+                        <div class="col text-right">
+                            <a class="btn btn-primary" routerLink="/dashboard/doctor/new">New doctor</a>
+                            
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -38,14 +51,35 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Lunar probe project</td>
-                                <td>Lunar probe project</td>
-                               
+                            <tr *ngFor="let doctor of doctors">
+                                <td class="text-center">
+                                    <img alt="hospital.name" [src]="doctor.img! | image:'hospitals'" 
+                                    class="avatar cursor"
+                                    (click)="openModal(doctor)"    
+                                    >
+                                   
+
+                                </td>
+                                <td>
+                                    <input type="text" name="" id="" class="form-control" 
+                                    [(ngModel)]="doctor.name"
+                                    placeholder="doctor's name">
+                                </td>
                                 
-                                <td class="text-nowrap text-center">
-                                    <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                                    <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                                
+                                
+                                <td class="text-nowrap text-center row">
+                                    <div class="col">
+                                        <a [routerLink]="['/dashboard/doctor',doctor.doctorID]" data-toggle="tooltip" data-original-title="Save" class="cursor"> 
+                                            <i class="fa fa-pencil text-inverse m-r-10"></i> 
+                                        </a>
+                                    </div>
+                                    <div class="col">
+                                        
+                                        <a (click)="delete(doctor)" data-toggle="tooltip" data-original-title="Delete" class="cursor"> 
+                                            <i class="fa fa-close text-danger"></i> 
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             

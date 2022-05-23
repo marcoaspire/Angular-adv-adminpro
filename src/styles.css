@@ -18,6 +18,15 @@
 .w100{
   width: 100px;
 }
+.center{
+  
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  place-items: center;
+  /* center */
+  justify-content: center; 
+}
 
 .w140{
   width: 140px;

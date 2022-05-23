@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Hospital } from 'src/app/models/hospital.model';
 import { HospitalService } from 'src/app/services/hospital.service';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styles: [
   ]
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit,OnDestroy {
 
   public hospitals: Hospital[]=[];
   public loading: boolean=true;
@@ -28,6 +28,10 @@ export class HospitalsComponent implements OnInit {
     this.loadHospitals();
     //refresh user if we receive an observable because the image was updated
     this.imgSubs=this.imageModalService.newImage.subscribe(img => this.loadHospitals());
+  }
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
   loadHospitals(){

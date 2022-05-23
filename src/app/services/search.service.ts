@@ -45,6 +45,9 @@ export class SearchService {
             case 'hospitals':
               return resp.hospitals;
             break;
+            case 'doctors':
+              return resp.doctors;
+            break;
           default:
             return [];
             break;

@@ -15,10 +15,10 @@ export class Doctor{
     constructor(
 
     public name:       string,
+    public hospital:   Hospital,
     public doctorID?:   number,
     public img?:        null,
     public user?:       _DoctorUser,
-    public hospital?:   Hospital,
 
         
     ){}
