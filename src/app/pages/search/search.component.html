@@ -1,0 +1,115 @@
+<div class="row animated fadeIn fast">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Users</h3>
+
+                <div class="alert alert-info animated fadeIn fast" 
+                    *ngIf="users.length===0">
+                    We cound not find any user
+                </div>
+
+
+                <div class="table-responsive" *ngIf="users.length!=0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>
+                                    <img  [src]="user.img! | image:'hospitals'" 
+                                        class="w75"
+                                    >
+
+                                </td>
+                                <td >{{user.name}}</td>
+                                
+                            </tr>
+                            
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Hospital</h3>
+
+                <div class="alert alert-info animated fadeIn fast" *ngIf="hospitals.length===0">
+                    We cound not find any hospital
+                </div>
+
+
+                <div class="table-responsive" *ngIf="hospitals.length!=0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitals">
+                                <td>
+                                    
+                                    <img  [src]="hospital.img! | image:'hospitals'" 
+                                        class="w75"
+                                    >
+                                </td>
+                                <td>{{hospital.name}}</td>
+                                
+                            </tr>
+                            
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h3>Doctors</h3>
+
+                <div class="alert alert-info animated fadeIn fast" *ngIf="doctors.length===0">
+                    We cound not find any doctor
+                </div>
+
+
+                <div class="table-responsive"  *ngIf="doctors.length!=0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let doctor of doctors"
+                            [routerLink]="['/dashboard/doctor',doctor.doctorID]" 
+                            
+                            >
+                                <td>
+                                    <img  [src]="doctor.img! | image:'doctors'" 
+                                        class="w75"
+                                    >
+                                </td>
+                                <td>{{doctor.name}}</td>
+                                
+                            </tr>
+                            
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+          

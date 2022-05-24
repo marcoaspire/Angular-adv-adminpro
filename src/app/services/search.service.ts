@@ -54,9 +54,15 @@ export class SearchService {
         }
 
       })
-    )
-    
-    ;
+    );
+  }
+
+
+  globalSearch( term:string){
+    //http://localhost:5516/api/Searches/all/juan
+    return this.http.get(`${base_url}/Searches/all/${term}`,this.headers);
+
+
   }
 
 }

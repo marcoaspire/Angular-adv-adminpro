@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {  Observable } from 'rxjs';
+import {  delay } from 'rxjs/operators';
+
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { SidebarService } from '../../services/sidebar.service';
@@ -11,16 +14,15 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class SidebarComponent implements OnInit {
 
-  menuItems!: any[];
+  public menuItems: any[]=[];
   public user!:User;
 
 
-  constructor(private sidebarService:SidebarService,private userService:UserService) {
+  constructor(public sidebarService:SidebarService,private userService:UserService) {
     this.user= userService.user;
    }
 
   ngOnInit(): void {
-    this.menuItems=this.sidebarService.menu;
   }
 
 }

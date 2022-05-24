@@ -33,6 +33,10 @@ export class UserService {
     return this.user.userID|| -1;
   }
 
+  get role(): 'ADMIN_ROLE'| 'USER_ROLE' {
+    return this.user.role!;
+  }
+
   get headers(){
     return {
       headers:{
@@ -43,6 +47,7 @@ export class UserService {
 
   logout(){
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     this.ngZone.run(()=>{
       this.router.navigateByUrl('/login');
 
@@ -60,7 +65,14 @@ export class UserService {
         const  { email,google,img,name,role,userID}=resp.user;
         this.user=new User(google,name,email,'',img,role,userID);
         
-        localStorage.setItem('token', resp.token);
+        // localStorage.setItem('token', resp.token);
+        // localStorage.setItem('menu', resp.menu);
+
+        this.saveLocalStorage(resp.token,resp.menu);
+
+
+
+
         return true;
       }),
       catchError(err=> {
@@ -77,7 +89,10 @@ export class UserService {
   createUser(formData:Register){
     return this.http.post(`${base_url}/User`, formData).pipe(
       tap( (resp:any) => {
-        localStorage.setItem('token', resp.token.token)
+        // localStorage.setItem('token', resp.token.token),
+        // localStorage.setItem('menu', resp.menu);
+        this.saveLocalStorage(resp.token.token,resp.menu);
+
       })
     )
   }
@@ -126,7 +141,12 @@ export class UserService {
     return this.http.post(url,formData).pipe(
       tap( (resp:any) => {
         
-        localStorage.setItem('token', resp.token.token)
+        // localStorage.setItem('token', resp.token.token);
+        // localStorage.setItem('menu', resp.menu);
+
+        this.saveLocalStorage(resp.token.token,resp.menu);
+
+
       }       
       )
     );
@@ -138,10 +158,15 @@ export class UserService {
       tap( (resp:any) => {
         console.log(resp);
         
-        localStorage.setItem('token', resp.token.token)
-      }       
-      )
+        this.saveLocalStorage(resp.token.token,resp.menu);
+
+      })
     );
+  }
+
+  saveLocalStorage(token:string, menu:any){
+    localStorage.setItem('token', token);
+    localStorage.setItem('menu', menu);
   }
 
 
